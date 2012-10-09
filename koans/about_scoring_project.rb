@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 
 # Greed is a dice game where you roll up to five dice to accumulate
-# points.  The following "score" function will be used to calculate the
+# points. The following "score" function will be used to calculate the
 # score of a single roll of the dice.
 #
 # A greed roll is scored as follows:
@@ -9,7 +9,7 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 # * A set of three ones is 1000 points
 #
 # * A set of three numbers (other than ones) is worth 100 times the
-#   number. (e.g. three fives is 500 points).
+# number. (e.g. three fives is 500 points).
 #
 # * A one (that is not part of a set of three) is worth 100 points.
 #
@@ -31,6 +31,23 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 
 def score(dice)
   # You need to write this method
+  counter = [0,0,0,0,0,0]
+  dice.each do |res|
+    counter[res-1] += 1
+  end
+  total = 0
+  counter.each_with_index do |val, index|
+    if val >= 3 then
+      if index == 0 then
+        total += 1000
+      else
+        total += 100*(index+1)
+      end
+      counter[index] -= 3
+    end
+  end
+  total += counter[0]*100 + counter[4]*50
+  total
 end
 
 class AboutScoringProject < EdgeCase::Koan
